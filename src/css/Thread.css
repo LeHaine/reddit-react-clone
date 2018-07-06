@@ -1,0 +1,77 @@
+.Thread {
+    display: grid;
+    grid-template-columns: 5% 7% auto;
+    border: solid 1px #333;
+    margin: 0 auto;
+    width: 95%;
+}
+
+.Thread i {
+    color: #ccc;
+}
+
+.Thread .link {
+    display: block;
+}
+
+.Thread .vote {
+    display: grid;
+    grid-template-columns: auto;
+    margin: 0 auto;
+}
+
+.Thread .vote button {
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background-color: white;
+}
+
+.Thread .vote i {
+    display: inline-block;
+    font-size: 20px;
+}
+
+.Thread .vote .upvote-selected {
+    color: #ffcb30;
+}
+
+.Thread .vote .downvote-selected {
+    color: #299cd1;
+}
+
+.Thread .vote .karma {
+    font-size: 14px;
+    text-align: center;
+}
+
+.Thread .thumb {
+    text-align: center;
+    margin: auto;
+    font-size: 42px;
+}
+
+.Thread .title {
+    font-size: 19px;
+    padding: 2px 0;
+}
+
+.Thread .author {
+    font-size: 12px;
+    color: gray;
+}
+
+.Thread .comments button {
+    border: none;
+    padding: 0;
+    height: 28px;
+    background-color: white;
+}
+
+.Thread .comments button:hover {
+    background-color: #eee;
+}
+
+.Thread .comments .description {
+    color: #aaa;
+}
