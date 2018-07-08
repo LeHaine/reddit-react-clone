@@ -1,33 +1,65 @@
 import React, { Component } from "react";
 import "../css/Thread.css";
 
-export const NONE = "NONE";
-export const UPVOTED = "UPVOTED";
-export const DOWNVOTED = "DOWNVOTED";
+const UserAction = {
+    none: "none",
+    upvoted: "upvoted",
+    downvoted: "downvoted"
+};
+
+const Arrow = {
+    up: "up",
+    down: "down"
+};
 
 class Thread extends Component {
     constructor() {
         super();
         this.state = {
-            userAction: NONE
+            userAction: UserAction.none
         };
+        this.handleVote = this.handleVote.bind(this);
     }
+
+    handleVote = arrow => {
+        if (arrow === Arrow.up) {
+            if (
+                this.state.userAction === UserAction.none ||
+                this.state.userAction === UserAction.downvoted
+            ) {
+                this.setState({ userAction: UserAction.upvoted });
+            } else {
+                this.setState({ userAction: UserAction.none });
+            }
+        } else if (arrow === Arrow.down) {
+            if (
+                this.state.userAction === UserAction.none ||
+                this.state.userAction === UserAction.upvoted
+            ) {
+                this.setState({ userAction: UserAction.downvoted });
+            } else {
+                this.setState({ userAction: UserAction.none });
+            }
+        }
+    };
     render() {
+        const thread = this.props.thread;
+
         let upvote = "upvote";
         let downvote = "downvote";
-        if (this.state.userAction === UPVOTED) {
+        if (this.state.userAction === UserAction.upvoted) {
             upvote = "upvote-selected";
-        } else if (this.state.userAction === DOWNVOTED) {
+        } else if (this.state.userAction === UserAction.downvoted) {
             downvote = "downvote-selected";
         }
         return (
             <div className="Thread">
                 <div className="vote">
-                    <button>
+                    <button onClick={() => this.handleVote(Arrow.up)}>
                         <i className={upvote + " fas fa-arrow-up"} />
                     </button>
-                    <span className="karma">100</span>
-                    <button>
+                    <span className="karma">{thread.karma}</span>
+                    <button onClick={() => this.handleVote(Arrow.down)}>
                         <i className={downvote + " fas fa-arrow-down"} />
                     </button>
                 </div>
@@ -36,12 +68,12 @@ class Thread extends Component {
                 </div>
                 <div className="body">
                     <div className="title">
-                        <a href="#">Thread title</a>
+                        <a href="#">{thread.title}</a>
                     </div>
                     <div className="author">
                         <span>
-                            <a href="#">r/sub</a> - Posted by{" "}
-                            <a href="#">u/user</a>
+                            <a href="#">r/{thread.sub}</a> - Posted by{" "}
+                            <a href="#">u/{thread.author}</a>
                         </span>
                     </div>
                     <div className="comments">

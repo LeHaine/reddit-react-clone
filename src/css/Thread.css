@@ -1,9 +1,8 @@
 .Thread {
     display: grid;
     grid-template-columns: 5% 7% auto;
-    border: solid 1px #333;
+    border-bottom: solid 1px #333;
     margin: 0 auto;
-    width: 95%;
 }
 
 .Thread i {
@@ -25,6 +24,7 @@
     padding: 0;
     cursor: pointer;
     background-color: white;
+    outline: none;
 }
 
 .Thread .vote i {
@@ -43,6 +43,7 @@
 .Thread .vote .karma {
     font-size: 14px;
     text-align: center;
+    margin: auto;
 }
 
 .Thread .thumb {

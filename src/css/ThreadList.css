@@ -1,0 +1,6 @@
+.ThreadList .threads {
+    padding: 10px;
+    border: solid 1px #ccc;
+    width: 90%;
+    margin: 0 auto;
+}
