@@ -58,7 +58,9 @@ class Thread extends Component {
                     <button onClick={() => this.handleVote(Arrow.up)}>
                         <i className={upvote + " fas fa-arrow-up"} />
                     </button>
-                    <span className="karma">{thread.karma}</span>
+                    <span className="karma">
+                        {thread.upvotes - thread.downvotes}
+                    </span>
                     <button onClick={() => this.handleVote(Arrow.down)}>
                         <i className={downvote + " fas fa-arrow-down"} />
                     </button>
@@ -73,7 +75,7 @@ class Thread extends Component {
                     <div className="author">
                         <span>
                             <a href="#">r/{thread.sub}</a> - Posted by{" "}
-                            <a href="#">u/{thread.author}</a>
+                            <a href="#">u/{thread.user.username}</a>
                         </span>
                     </div>
                     <div className="comments">

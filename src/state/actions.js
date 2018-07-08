@@ -4,7 +4,7 @@ import {
     FETCH_THREADS_SUCCESS,
     FETCH_THREADS_FAILURE
 } from "./action-types";
-const baseUrl = "http://localhost:3004/";
+const baseUrl = "http://localhost:8086/";
 
 export const fetchThreadsBegin = () => ({
     type: FETCH_THREADS_BEGIN
@@ -26,8 +26,8 @@ export const fetchThreads = () => {
         axios
             .get(baseUrl + "threads")
             .then(response => {
-                dispatch(fetchThreadsSuccess(response.data));
-                return response;
+                console.log(response.data.content);
+                dispatch(fetchThreadsSuccess(response.data.content));
             })
             .catch(error => {
                 dispatch(fetchThreadsFailure(error));
