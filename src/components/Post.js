@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../css/Thread.css";
+import "../css/Post.css";
 
 const UserAction = {
     none: "none",
@@ -12,7 +12,7 @@ const Arrow = {
     down: "down"
 };
 
-class Thread extends Component {
+class Post extends Component {
     constructor() {
         super();
         this.state = {
@@ -43,7 +43,7 @@ class Thread extends Component {
         }
     };
     render() {
-        const thread = this.props.thread;
+        const post = this.props.post;
 
         let upvote = "upvote";
         let downvote = "downvote";
@@ -53,13 +53,13 @@ class Thread extends Component {
             downvote = "downvote-selected";
         }
         return (
-            <div className="Thread">
+            <div className="Post">
                 <div className="vote">
                     <button onClick={() => this.handleVote(Arrow.up)}>
                         <i className={upvote + " fas fa-arrow-up"} />
                     </button>
                     <span className="karma">
-                        {thread.upvotes - thread.downvotes}
+                        {post.upvotes - post.downvotes}
                     </span>
                     <button onClick={() => this.handleVote(Arrow.down)}>
                         <i className={downvote + " fas fa-arrow-down"} />
@@ -70,12 +70,15 @@ class Thread extends Component {
                 </div>
                 <div className="body">
                     <div className="title">
-                        <a href="#">{thread.title}</a>
+                        <a href={post.id + "/" + post.title}>{post.title}</a>
                     </div>
                     <div className="author">
                         <span>
-                            <a href="#">r/{thread.sub}</a> - Posted by{" "}
-                            <a href="#">u/{thread.user.username}</a>
+                            <a href={"/r/" + post.sub}>r/{post.sub}</a> - Posted
+                            by{" "}
+                            <a href={"/u/" + post.user.username}>
+                                u/{post.user.username}
+                            </a>
                         </span>
                     </div>
                     <div className="comments">
@@ -90,4 +93,4 @@ class Thread extends Component {
     }
 }
 
-export default Thread;
+export default Post;

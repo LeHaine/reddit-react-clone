@@ -1,40 +1,40 @@
 import { combineReducers } from "redux";
 import {
-    FETCH_THREADS_BEGIN,
-    FETCH_THREADS_SUCCESS,
-    FETCH_THREADS_FAILURE
+    FETCH_POSTS_BEGIN,
+    FETCH_POSTS_SUCCESS,
+    FETCH_POSTS_FAILURE
 } from "./action-types";
 
 const defaultState = {
-    threads: [],
+    posts: [],
     loading: false,
     error: null
 };
 
-const threadReducer = (state = defaultState, action = {}) => {
+const postReducer = (state = defaultState, action = {}) => {
     switch (action.type) {
-        case FETCH_THREADS_BEGIN:
+        case FETCH_POSTS_BEGIN:
             return {
                 ...state,
                 loading: true
             };
-        case FETCH_THREADS_SUCCESS:
+        case FETCH_POSTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                threads: action.payload.threads
+                posts: action.payload.posts
             };
-        case FETCH_THREADS_FAILURE:
+        case FETCH_POSTS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                threads: []
+                posts: []
             };
         default:
             return state;
     }
 };
 
-const rootReducer = combineReducers({ threads: threadReducer });
+const rootReducer = combineReducers({ posts: postReducer });
 
 export default rootReducer;

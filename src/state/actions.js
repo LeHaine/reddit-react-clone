@@ -1,36 +1,35 @@
 import axios from "axios";
 import {
-    FETCH_THREADS_BEGIN,
-    FETCH_THREADS_SUCCESS,
-    FETCH_THREADS_FAILURE
+    FETCH_POSTS_BEGIN,
+    FETCH_POSTS_SUCCESS,
+    FETCH_POSTS_FAILURE
 } from "./action-types";
 const baseUrl = "http://localhost:8086/";
 
-export const fetchThreadsBegin = () => ({
-    type: FETCH_THREADS_BEGIN
+export const fetchPostsBegin = () => ({
+    type: FETCH_POSTS_BEGIN
 });
 
-export const fetchThreadsSuccess = threads => ({
-    type: FETCH_THREADS_SUCCESS,
-    payload: { threads }
+export const fetchPostsSuccess = posts => ({
+    type: FETCH_POSTS_SUCCESS,
+    payload: { posts }
 });
 
-export const fetchThreadsFailure = error => ({
-    type: FETCH_THREADS_FAILURE,
+export const fetchPostsFailure = error => ({
+    type: FETCH_POSTS_FAILURE,
     payload: { error }
 });
 
-export const fetchThreads = () => {
+export const fetchPosts = () => {
     return dispatch => {
-        dispatch(fetchThreadsBegin(true));
+        dispatch(fetchPostsBegin(true));
         axios
-            .get(baseUrl + "threads")
+            .get(baseUrl + "post")
             .then(response => {
-                console.log(response.data.content);
-                dispatch(fetchThreadsSuccess(response.data.content));
+                dispatch(fetchPostsSuccess(response.data.content));
             })
             .catch(error => {
-                dispatch(fetchThreadsFailure(error));
+                dispatch(fetchPostsFailure(error));
             });
     };
 };
