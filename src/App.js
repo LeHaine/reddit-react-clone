@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import Header from "./components/Header";
-import LoginForm from "./components/LoginForm";
-import PostList from "./containers/PostList";
+import Header from "./containers/Header";
+import LoginPage from "./pages/LoginPage";
+import LogoutPage from "./pages/LogoutPage";
+import FrontPage from "./pages/FrontPage";
 import "./App.css";
 
 class App extends Component {
@@ -10,8 +11,9 @@ class App extends Component {
         return (
             <div className="App">
                 <Header />
-                <Route exact path="/" component={PostList} />
-                <Route path="/login" component={LoginForm} />
+                <Route exact path="/" component={FrontPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/logout" component={LogoutPage} />
             </div>
         );
     }

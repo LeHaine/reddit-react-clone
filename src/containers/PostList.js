@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Post from "../components/Post";
+import Post from "../containers/Post";
 import { fetchPosts } from "../state/actions";
-import "../css/PostList.css";
+import "./css/PostList.css";
 
 class PostList extends Component {
     componentDidMount() {

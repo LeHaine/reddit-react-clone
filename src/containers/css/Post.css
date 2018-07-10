@@ -19,27 +19,6 @@
     margin: 0 auto;
 }
 
-.Post .vote button {
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    background-color: white;
-    outline: none;
-}
-
-.Post .vote i {
-    display: inline-block;
-    font-size: 20px;
-}
-
-.Post .vote .upvote-selected {
-    color: #ffcb30;
-}
-
-.Post .vote .downvote-selected {
-    color: #299cd1;
-}
-
 .Post .vote .karma {
     font-size: 14px;
     text-align: center;
