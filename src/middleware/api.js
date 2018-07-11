@@ -30,7 +30,7 @@ const callApi = (method, headers, data, endpoint) => {
         .then(response => {
             return response;
         })
-        .catch(err => console.log(err));
+        .catch(err => Promise.reject(err));
 };
 
 export const CALL_API = Symbol("Call API");
@@ -38,7 +38,6 @@ export const CALL_API = Symbol("Call API");
 export default store => next => action => {
     const callAPI = action[CALL_API];
 
-    // So the middleware doesn't get applied to every single action
     if (typeof callAPI === "undefined") {
         return next(action);
     }
