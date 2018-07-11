@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import PageContainer from "../containers/PageContainer";
 import LoginForm from "../containers/LoginForm";
 
 class LoginPage extends Component {
     render() {
         return (
-            <div className="LoginPage">
+            <PageContainer className="LoginPage">
                 <LoginForm />
-            </div>
+            </PageContainer>
         );
     }
 }

@@ -48,7 +48,17 @@ class Post extends Component {
                 </div>
                 <div className="body">
                     <div className="title">
-                        <a href={post.id + "/" + post.title}>{post.title}</a>
+                        <a
+                            href={
+                                post.id +
+                                "/" +
+                                post.title
+                                    .replace(/[^a-zA-Z0-9 ]/g, "")
+                                    .replace(/ /g, "_")
+                            }
+                        >
+                            {post.title}
+                        </a>
                     </div>
                     <div className="author">
                         <span>
