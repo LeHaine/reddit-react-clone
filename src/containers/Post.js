@@ -1,46 +1,31 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import VoteButton from "../components/VoteButton";
+import { vote } from "../state/actions";
 import "./css/Post.css";
 
 class Post extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            upvoted: false,
-            downvoted: false
+            voteFlag: this.props.post.voteFlag
         };
     }
-    handleUpvote = () => {
-        const upvoted = !this.state.upvoted;
-        const downvoted = this.state.downvoted;
-        let diff = 0;
-        if (upvoted) {
-            diff = 1;
-            if (downvoted) {
-                diff = 2;
-            }
-        } else {
-            diff = -1;
+
+    handleVote = dir => {
+        if (!this.props.isAuthed) {
+            console.log("You need to login");
+            return;
         }
-        this.props.post.grossVotes += diff;
-        this.setState({ upvoted: !this.state.upvoted, downvoted: false });
+        let flag = dir;
+        if (flag === this.state.voteFlag) {
+            flag = 0;
+        }
+        this.setState({ voteFlag: flag });
+        this.props.post.grossVotes += flag;
+        this.props.vote(this.props.post.id, flag);
     };
 
-    handleDownvote = () => {
-        const upvoted = this.state.upvoted;
-        const downvoted = !this.state.downvoted;
-        let diff = 0;
-        if (downvoted) {
-            diff = -1;
-            if (upvoted) {
-                diff = -2;
-            }
-        } else {
-            diff = 1;
-        }
-        this.props.post.grossVotes += diff;
-        this.setState({ upvoted: false, downvoted: !this.state.downvoted });
-    };
     render() {
         const post = this.props.post;
         return (
@@ -48,14 +33,14 @@ class Post extends Component {
                 <div className="vote">
                     <VoteButton
                         arrow="up"
-                        onVote={this.handleUpvote}
-                        selected={this.state.upvoted}
+                        onVote={() => this.handleVote(1)}
+                        selected={this.state.voteFlag > 0 ? true : false}
                     />
                     <span className="karma">{post.grossVotes}</span>
                     <VoteButton
                         arrow="down"
-                        onVote={this.handleDownvote}
-                        selected={this.state.downvoted}
+                        onVote={() => this.handleVote(-1)}
+                        selected={this.state.voteFlag < 0 ? true : false}
                     />
                 </div>
                 <div className="thumb">
@@ -86,5 +71,18 @@ class Post extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        isAuthed: state.auth.isAuthed
+    };
+};
 
-export default Post;
+const mapDispatchToProps = dispatch => {
+    return {
+        vote: (postId, dir) => dispatch(vote(postId, dir))
+    };
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Post);

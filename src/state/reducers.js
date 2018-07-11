@@ -27,7 +27,7 @@ const postReducer = (state = postDefaultState, action = {}) => {
             return {
                 ...state,
                 loading: false,
-                posts: action.payload.posts
+                posts: action.response.data.content
             };
         case FETCH_POSTS_FAILURE:
             return {
@@ -54,6 +54,10 @@ const authReducer = (state = authDefaultState, action = {}) => {
                 loading: true
             };
         case LOGIN_SUCCESS:
+            localStorage.setItem(
+                "token",
+                action.response.headers.authorization
+            );
             return {
                 ...state,
                 loading: false,
@@ -65,7 +69,7 @@ const authReducer = (state = authDefaultState, action = {}) => {
                 ...state,
                 loading: false,
                 isAuthed: false,
-                error: action.payload
+                error: action.error
             };
         case LOGOUT_REQUEST:
             return {

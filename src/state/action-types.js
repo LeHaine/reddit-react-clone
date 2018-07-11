@@ -6,3 +6,6 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const VOTE_REQUEST = "VOTE_REQUEST";
+export const VOTE_SUCCESS = "VOTE_SUCCESS";
+export const VOTE_FAILURE = "VOTE_FAILURE";

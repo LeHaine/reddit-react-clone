@@ -1,4 +1,4 @@
-import axios from "axios";
+import { CALL_API } from "../middleware/api";
 import {
     FETCH_POSTS_BEGIN,
     FETCH_POSTS_SUCCESS,
@@ -7,82 +7,56 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGOUT_REQUEST,
-    LOGOUT_SUCCESS
+    LOGOUT_SUCCESS,
+    VOTE_REQUEST,
+    VOTE_SUCCESS,
+    VOTE_FAILURE
 } from "./action-types";
-const baseUrl = "http://localhost:8086";
-
-export const fetchPostsBegin = () => ({
-    type: FETCH_POSTS_BEGIN
-});
-
-export const fetchPostsSuccess = posts => ({
-    type: FETCH_POSTS_SUCCESS,
-    payload: { posts }
-});
-
-export const fetchPostsFailure = error => ({
-    type: FETCH_POSTS_FAILURE,
-    payload: { error }
-});
 
 export const fetchPosts = () => {
-    return dispatch => {
-        dispatch(fetchPostsBegin(true));
-        axios
-            .get(baseUrl + "/post")
-            .then(response => {
-                dispatch(fetchPostsSuccess(response.data.content));
-            })
-            .catch(error => {
-                dispatch(fetchPostsFailure(error));
-            });
+    return {
+        [CALL_API]: {
+            method: "GET",
+            endpoint: "post",
+            types: [FETCH_POSTS_BEGIN, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE]
+        }
     };
 };
 
-export const loginRequest = () => ({
-    type: LOGIN_REQUEST
-});
-
-export const loginSuccess = token => ({
-    type: LOGIN_SUCCESS,
-    payload: token
-});
-
-export const loginFailure = error => ({
-    type: LOGIN_FAILURE,
-    payload: { error }
-});
-
-export const logoutRequest = () => ({
-    type: LOGOUT_REQUEST
-});
-
-export const logoutSuccess = () => ({
-    type: LOGOUT_SUCCESS
-});
+export const vote = (postId, dir) => {
+    return {
+        [CALL_API]: {
+            method: "POST",
+            endpoint: "vote",
+            data: {
+                flag: dir,
+                post: {
+                    id: postId
+                }
+            },
+            types: [VOTE_REQUEST, VOTE_SUCCESS, VOTE_FAILURE]
+        }
+    };
+};
 
 export const login = (username, password) => {
-    return dispatch => {
-        dispatch(loginRequest());
-        axios
-            .post(baseUrl + "/login", {
+    return {
+        [CALL_API]: {
+            method: "POST",
+            endpoint: "login",
+            data: {
                 username: username,
                 password: password
-            })
-            .then(response => {
-                localStorage.setItem("token", response.headers.authorization);
-                dispatch(loginSuccess(response.headers.authorization));
-            })
-            .catch(error => {
-                dispatch(loginFailure(error));
-            });
+            },
+            types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
+        }
     };
 };
 
 export const logout = () => {
     return dispatch => {
-        dispatch(logoutRequest());
+        dispatch({ type: LOGOUT_REQUEST });
         localStorage.removeItem("token");
-        dispatch(logoutSuccess());
+        dispatch({ type: LOGOUT_SUCCESS });
     };
 };
