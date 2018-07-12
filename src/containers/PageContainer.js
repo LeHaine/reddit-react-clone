@@ -8,6 +8,7 @@ class PageContainer extends Component {
             <Page
                 className={this.props.className}
                 isAuthed={this.props.isAuthed}
+                username={this.props.username}
             >
                 {this.props.children}
             </Page>
@@ -17,7 +18,8 @@ class PageContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthed: state.auth.isAuthed
+        isAuthed: state.auth.isAuthed,
+        username: state.auth.username
     };
 };
 

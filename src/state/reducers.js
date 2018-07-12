@@ -44,6 +44,7 @@ const postReducer = (state = postDefaultState, action = {}) => {
 const authDefaultState = {
     isAuthed: localStorage.getItem("token") ? true : false,
     loading: false,
+    username: "",
     error: ""
 };
 
@@ -52,17 +53,20 @@ const authReducer = (state = authDefaultState, action = {}) => {
         case LOGIN_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                username: ""
             };
         case LOGIN_SUCCESS:
             localStorage.setItem(
                 "token",
                 action.response.headers.authorization
             );
+            console.log(action.response);
             return {
                 ...state,
                 loading: false,
                 isAuthed: true,
+                username: action.response.data.username,
                 error: ""
             };
         case LOGIN_FAILURE:
@@ -70,6 +74,7 @@ const authReducer = (state = authDefaultState, action = {}) => {
                 ...state,
                 loading: false,
                 isAuthed: false,
+                username: "",
                 error: action.error
             };
         case LOGOUT_REQUEST:
@@ -81,7 +86,8 @@ const authReducer = (state = authDefaultState, action = {}) => {
             return {
                 ...state,
                 loading: false,
-                isAuthed: false
+                isAuthed: false,
+                username: ""
             };
 
         default:
