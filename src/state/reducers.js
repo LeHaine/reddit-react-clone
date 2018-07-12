@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { reducer as reduxFormReducer } from "redux-form";
 import {
     FETCH_POSTS_BEGIN,
     FETCH_POSTS_SUCCESS,
@@ -88,9 +89,39 @@ const authReducer = (state = authDefaultState, action = {}) => {
     }
 };
 
+const signupDefault = {
+    loading: false,
+    error: null
+};
+
+const signupReducer = (state = signupDefault, action = {}) => {
+    switch (action.type) {
+        case FETCH_POSTS_BEGIN:
+            return {
+                ...state,
+                loading: true
+            };
+        case FETCH_POSTS_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case FETCH_POSTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        default:
+            return state;
+    }
+};
+
 const rootReducer = combineReducers({
     posts: postReducer,
-    auth: authReducer
+    auth: authReducer,
+    signup: signupReducer,
+    form: reduxFormReducer
 });
 
 export default rootReducer;

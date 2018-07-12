@@ -10,7 +10,10 @@ import {
     LOGOUT_SUCCESS,
     VOTE_REQUEST,
     VOTE_SUCCESS,
-    VOTE_FAILURE
+    VOTE_FAILURE,
+    SIGNUP_REQUEST,
+    SIGNUP_SUCCESS,
+    SIGNUP_FAILURE
 } from "./action-types";
 
 export const fetchPosts = () => {
@@ -58,5 +61,19 @@ export const logout = () => {
         dispatch({ type: LOGOUT_REQUEST });
         localStorage.removeItem("token");
         dispatch({ type: LOGOUT_SUCCESS });
+    };
+};
+
+export const signup = creds => {
+    return {
+        [CALL_API]: {
+            method: "POST",
+            endpoint: "account",
+            data: {
+                username: creds.username,
+                password: creds.password
+            },
+            types: [SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE]
+        }
     };
 };

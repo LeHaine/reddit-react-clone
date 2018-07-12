@@ -11,7 +11,6 @@ class LoginForm extends Component {
             password: "",
             error: ""
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = e => {
