@@ -1,27 +1,16 @@
 import { CALL_API } from "../middleware/api";
-import {
-    FETCH_POSTS_BEGIN,
-    FETCH_POSTS_SUCCESS,
-    FETCH_POSTS_FAILURE,
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-    LOGOUT_REQUEST,
-    LOGOUT_SUCCESS,
-    VOTE_REQUEST,
-    VOTE_SUCCESS,
-    VOTE_FAILURE,
-    SIGNUP_REQUEST,
-    SIGNUP_SUCCESS,
-    SIGNUP_FAILURE
-} from "./action-types";
+import * as Action from "./action-types";
 
 export const fetchPosts = () => {
     return {
         [CALL_API]: {
             method: "GET",
             endpoint: "post",
-            types: [FETCH_POSTS_BEGIN, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE]
+            types: [
+                Action.FETCH_POSTS_BEGIN,
+                Action.FETCH_POSTS_SUCCESS,
+                Action.FETCH_POSTS_FAILURE
+            ]
         }
     };
 };
@@ -37,7 +26,11 @@ export const vote = (postId, dir) => {
                     id: postId
                 }
             },
-            types: [VOTE_REQUEST, VOTE_SUCCESS, VOTE_FAILURE]
+            types: [
+                Action.VOTE_REQUEST,
+                Action.VOTE_SUCCESS,
+                Action.VOTE_FAILURE
+            ]
         }
     };
 };
@@ -51,16 +44,20 @@ export const login = (username, password) => {
                 username: username,
                 password: password
             },
-            types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
+            types: [
+                Action.LOGIN_REQUEST,
+                Action.LOGIN_SUCCESS,
+                Action.LOGIN_FAILURE
+            ]
         }
     };
 };
 
 export const logout = () => {
     return dispatch => {
-        dispatch({ type: LOGOUT_REQUEST });
+        dispatch({ type: Action.LOGOUT_REQUEST });
         localStorage.removeItem("token");
-        dispatch({ type: LOGOUT_SUCCESS });
+        dispatch({ type: Action.LOGOUT_SUCCESS });
     };
 };
 
@@ -73,7 +70,26 @@ export const signup = creds => {
                 username: creds.username,
                 password: creds.password
             },
-            types: [SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE]
+            types: [
+                Action.SIGNUP_REQUEST,
+                Action.SIGNUP_SUCCESS,
+                Action.SIGNUP_FAILURE
+            ]
+        }
+    };
+};
+
+export const createPost = data => {
+    return {
+        [CALL_API]: {
+            method: "POST",
+            endpoint: "post",
+            data: data,
+            types: [
+                Action.CREATE_POST_REQUEST,
+                Action.CREATE_POST_SUCCESS,
+                Action.CREATE_POST_FAILURE
+            ]
         }
     };
 };

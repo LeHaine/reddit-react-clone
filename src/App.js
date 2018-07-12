@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import FrontPage from "./pages/FrontPage";
 import SignupPage from "./pages/SignupPage";
+import NewPostPage from "./pages/NewPostPage";
 import "./App.css";
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
                 <Route path="/login" component={LoginPage} />
                 <Route path="/logout" component={LogoutPage} />
                 <Route path="/signup" component={SignupPage} />
+                <Route path="/submit" component={NewPostPage} />
             </div>
         );
     }

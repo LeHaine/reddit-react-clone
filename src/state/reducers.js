@@ -1,15 +1,6 @@
 import { combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
-import {
-    FETCH_POSTS_BEGIN,
-    FETCH_POSTS_SUCCESS,
-    FETCH_POSTS_FAILURE,
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-    LOGOUT_REQUEST,
-    LOGOUT_SUCCESS
-} from "./action-types";
+import * as Action from "./action-types";
 
 const postDefaultState = {
     posts: [],
@@ -19,18 +10,18 @@ const postDefaultState = {
 
 const postReducer = (state = postDefaultState, action = {}) => {
     switch (action.type) {
-        case FETCH_POSTS_BEGIN:
+        case Action.FETCH_POSTS_BEGIN:
             return {
                 ...state,
                 loading: true
             };
-        case FETCH_POSTS_SUCCESS:
+        case Action.FETCH_POSTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 posts: action.response.data.content
             };
-        case FETCH_POSTS_FAILURE:
+        case Action.FETCH_POSTS_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -44,24 +35,24 @@ const postReducer = (state = postDefaultState, action = {}) => {
 const authDefaultState = {
     isAuthed: localStorage.getItem("token") ? true : false,
     loading: false,
-    username: "",
+    username: localStorage.getItem("username"),
     error: ""
 };
 
 const authReducer = (state = authDefaultState, action = {}) => {
     switch (action.type) {
-        case LOGIN_REQUEST:
+        case Action.LOGIN_REQUEST:
             return {
                 ...state,
                 loading: true,
                 username: ""
             };
-        case LOGIN_SUCCESS:
+        case Action.LOGIN_SUCCESS:
             localStorage.setItem(
                 "token",
                 action.response.headers.authorization
             );
-            console.log(action.response);
+            localStorage.setItem("username", action.response.data.username);
             return {
                 ...state,
                 loading: false,
@@ -69,7 +60,7 @@ const authReducer = (state = authDefaultState, action = {}) => {
                 username: action.response.data.username,
                 error: ""
             };
-        case LOGIN_FAILURE:
+        case Action.LOGIN_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -77,12 +68,12 @@ const authReducer = (state = authDefaultState, action = {}) => {
                 username: "",
                 error: action.error
             };
-        case LOGOUT_REQUEST:
+        case Action.LOGOUT_REQUEST:
             return {
                 ...state,
                 loading: true
             };
-        case LOGOUT_SUCCESS:
+        case Action.LOGOUT_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -96,23 +87,59 @@ const authReducer = (state = authDefaultState, action = {}) => {
 };
 
 const signupDefault = {
+    success: false,
     loading: false,
     error: null
 };
 
 const signupReducer = (state = signupDefault, action = {}) => {
     switch (action.type) {
-        case FETCH_POSTS_BEGIN:
+        case Action.SIGNUP_REQUEST:
             return {
                 ...state,
                 loading: true
             };
-        case FETCH_POSTS_SUCCESS:
+        case Action.SIGNUP_SUCCESS:
             return {
                 ...state,
-                loading: false
+                loading: false,
+                success: true
             };
-        case FETCH_POSTS_FAILURE:
+        case Action.SIGNUP_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        default:
+            return state;
+    }
+};
+
+const creaePostDefault = {
+    post: null,
+    success: false,
+    loading: false,
+    error: null
+};
+
+const createPostReducer = (state = creaePostDefault, action = {}) => {
+    switch (action.type) {
+        case Action.CREATE_POST_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case Action.CREATE_POST_SUCCESS:
+            console.log(action);
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                post: action.response.data
+            };
+        case Action.CREATE_POST_FAILURE:
+            console.log(action);
             return {
                 ...state,
                 loading: false,
@@ -127,6 +154,7 @@ const rootReducer = combineReducers({
     posts: postReducer,
     auth: authReducer,
     signup: signupReducer,
+    post: createPostReducer,
     form: reduxFormReducer
 });
 

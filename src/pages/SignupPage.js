@@ -6,14 +6,24 @@ import SignupForm from "../containers/SignupForm";
 import { signup } from "../state/actions";
 
 class SignupPage extends Component {
+    constructor() {
+        super();
+        this.state = {
+            newSignup: true
+        };
+    }
     handleSubmit = values => {
+        this.setState({ newSignup: false });
         this.props.signup(values);
-        this.props.history.push("/");
     };
+
     render() {
         let redirect;
         if (this.props.isAuthed) {
             redirect = <Redirect to="/" />;
+        }
+        if (!this.state.newSignup && this.props.isSuccessful) {
+            redirect = <Redirect to="/login" />;
         }
         return (
             <PageContainer className="SignupPage">
@@ -34,6 +44,7 @@ const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
         loading: state.signup.loading,
+        isSuccessful: state.signup.success,
         error: state.signup.error
     };
 };
