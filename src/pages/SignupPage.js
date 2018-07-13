@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
-import SignupForm from "../containers/SignupForm";
+import SignupForm from "../containers/forms/SignupForm";
 import { signup } from "../state/actions";
 
 class SignupPage extends Component {
@@ -43,9 +43,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
-        loading: state.signup.loading,
-        isSuccessful: state.signup.success,
-        error: state.signup.error
+        loading: state.post.loading,
+        isSuccessful: state.post.success,
+        error: state.post.error
     };
 };
 

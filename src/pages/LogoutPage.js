@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PageContainer from "../containers/PageContainer";
-import LogoutForm from "../containers/LogoutForm";
+import LogoutForm from "../containers/forms/LogoutForm";
 
 class LogoutPage extends Component {
     render() {

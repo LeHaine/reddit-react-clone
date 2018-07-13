@@ -1,38 +1,65 @@
 import { CALL_API } from "../middleware/api";
 import * as Action from "./action-types";
 
-export const fetchPosts = () => {
+export const fetchData = endpoint => {
     return {
         [CALL_API]: {
             method: "GET",
-            endpoint: "post",
+            endpoint: endpoint,
             types: [
-                Action.FETCH_POSTS_BEGIN,
-                Action.FETCH_POSTS_SUCCESS,
-                Action.FETCH_POSTS_FAILURE
+                Action.FETCH_DATA_REQUEST,
+                Action.FETCH_DATA_SUCCESS,
+                Action.FETCH_DATA_FAILURE
             ]
         }
     };
 };
 
-export const vote = (postId, dir) => {
+export const doPost = (endpoint, data) => {
     return {
         [CALL_API]: {
             method: "POST",
-            endpoint: "vote",
-            data: {
-                flag: dir,
-                post: {
-                    id: postId
-                }
-            },
+            endpoint: endpoint,
+            data: data,
             types: [
-                Action.VOTE_REQUEST,
-                Action.VOTE_SUCCESS,
-                Action.VOTE_FAILURE
+                Action.DO_POST_REQUEST,
+                Action.DO_POST_SUCCESS,
+                Action.DO_POST_FAILURE
             ]
         }
     };
+};
+
+export const fetchPost = id => {
+    return fetchData("post/" + id);
+};
+
+export const fetchPosts = () => {
+    return fetchData("post");
+};
+
+export const signup = creds => {
+    return doPost("account", {
+        username: creds.username,
+        password: creds.password
+    });
+};
+
+export const vote = (postId, dir) => {
+    return doPost("vote", {
+        flag: dir,
+        post: {
+            id: postId
+        }
+    });
+};
+
+export const createPost = data => {
+    return doPost("post", data);
+};
+
+export const createSub = data => {
+    return doPost("sub", data);
 };
 
 export const login = (username, password) => {
@@ -58,38 +85,5 @@ export const logout = () => {
         dispatch({ type: Action.LOGOUT_REQUEST });
         localStorage.removeItem("token");
         dispatch({ type: Action.LOGOUT_SUCCESS });
-    };
-};
-
-export const signup = creds => {
-    return {
-        [CALL_API]: {
-            method: "POST",
-            endpoint: "account",
-            data: {
-                username: creds.username,
-                password: creds.password
-            },
-            types: [
-                Action.SIGNUP_REQUEST,
-                Action.SIGNUP_SUCCESS,
-                Action.SIGNUP_FAILURE
-            ]
-        }
-    };
-};
-
-export const createPost = data => {
-    return {
-        [CALL_API]: {
-            method: "POST",
-            endpoint: "post",
-            data: data,
-            types: [
-                Action.CREATE_POST_REQUEST,
-                Action.CREATE_POST_SUCCESS,
-                Action.CREATE_POST_FAILURE
-            ]
-        }
     };
 };

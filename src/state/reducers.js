@@ -2,30 +2,62 @@ import { combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import * as Action from "./action-types";
 
-const postDefaultState = {
-    posts: [],
+const fetchDataDefaultState = {
+    data: null,
     loading: false,
     error: null
 };
 
-const postReducer = (state = postDefaultState, action = {}) => {
+const fetchDataReducer = (state = fetchDataDefaultState, action = {}) => {
     switch (action.type) {
-        case Action.FETCH_POSTS_BEGIN:
+        case Action.FETCH_DATA_REQUEST:
             return {
                 ...state,
                 loading: true
             };
-        case Action.FETCH_POSTS_SUCCESS:
+        case Action.FETCH_DATA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                posts: action.response.data.content
+                data: action.response.data
             };
-        case Action.FETCH_POSTS_FAILURE:
+        case Action.FETCH_DATA_FAILURE:
             return {
                 ...state,
                 loading: false,
-                posts: []
+                data: null
+            };
+        default:
+            return state;
+    }
+};
+
+const doPostDefaultState = {
+    data: null,
+    success: false,
+    loading: false,
+    error: null
+};
+
+const doPostReducer = (state = doPostDefaultState, action = {}) => {
+    switch (action.type) {
+        case Action.DO_POST_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case Action.DO_POST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                data: action.response.data
+            };
+        case Action.DO_POST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
             };
         default:
             return state;
@@ -86,75 +118,10 @@ const authReducer = (state = authDefaultState, action = {}) => {
     }
 };
 
-const signupDefault = {
-    success: false,
-    loading: false,
-    error: null
-};
-
-const signupReducer = (state = signupDefault, action = {}) => {
-    switch (action.type) {
-        case Action.SIGNUP_REQUEST:
-            return {
-                ...state,
-                loading: true
-            };
-        case Action.SIGNUP_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                success: true
-            };
-        case Action.SIGNUP_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        default:
-            return state;
-    }
-};
-
-const creaePostDefault = {
-    post: null,
-    success: false,
-    loading: false,
-    error: null
-};
-
-const createPostReducer = (state = creaePostDefault, action = {}) => {
-    switch (action.type) {
-        case Action.CREATE_POST_REQUEST:
-            return {
-                ...state,
-                loading: true
-            };
-        case Action.CREATE_POST_SUCCESS:
-            console.log(action);
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                post: action.response.data
-            };
-        case Action.CREATE_POST_FAILURE:
-            console.log(action);
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        default:
-            return state;
-    }
-};
-
 const rootReducer = combineReducers({
-    posts: postReducer,
+    fetch: fetchDataReducer,
+    post: doPostReducer,
     auth: authReducer,
-    signup: signupReducer,
-    post: createPostReducer,
     form: reduxFormReducer
 });
 

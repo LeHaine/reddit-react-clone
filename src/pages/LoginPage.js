@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PageContainer from "../containers/PageContainer";
-import LoginForm from "../containers/LoginForm";
+import LoginForm from "../containers/forms/LoginForm";
 
 class LoginPage extends Component {
     render() {

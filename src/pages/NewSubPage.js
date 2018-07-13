@@ -2,34 +2,33 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
-import NewPostForm from "../containers/forms/NewPostForm";
-import { createPost } from "../state/actions";
+import NewSubForm from "../containers/forms/NewSubForm";
+import { createSub } from "../state/actions";
 
-class NewPostPage extends Component {
+class NewSubPage extends Component {
     constructor() {
         super();
         this.state = {
-            newPost: true
+            newSub: true
         };
     }
     handleSubmit = values => {
-        this.setState({
-            newPost: false
-        });
-        this.props.createPost(values);
+        this.setState({ newSub: false });
+        this.props.createSub(values);
     };
+
     render() {
         let redirect;
         if (!this.props.isAuthed) {
             redirect = <Redirect to="/" />;
         }
-        if (!this.state.newPost && this.props.isSuccessful) {
-            redirect = <Redirect to="/" />;
+        if (!this.state.newSub && this.props.isSuccessful) {
+            redirect = <Redirect to={"/r/" + this.props.sub.name} />;
         }
         return (
-            <PageContainer className="NewPostPage">
+            <PageContainer className="NewSubPage">
                 {redirect}
-                <NewPostForm onSubmit={this.handleSubmit} />
+                <NewSubForm onSubmit={this.handleSubmit} />
             </PageContainer>
         );
     }
@@ -37,16 +36,16 @@ class NewPostPage extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        createPost: data => dispatch(createPost(data))
+        createSub: data => dispatch(createSub(data))
     };
 };
 
 const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
+        sub: state.post.data,
         loading: state.post.loading,
         isSuccessful: state.post.success,
-        postData: state.post.post,
         error: state.post.error
     };
 };
@@ -54,4 +53,4 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NewPostPage);
+)(NewSubPage);

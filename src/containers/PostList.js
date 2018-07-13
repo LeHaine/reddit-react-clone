@@ -35,9 +35,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts.posts,
-        loading: state.posts.loading,
-        error: state.posts.error
+        posts: state.fetch.data ? state.fetch.data.content : [],
+        loading: state.fetch.loading,
+        error: state.fetch.error
     };
 };
 

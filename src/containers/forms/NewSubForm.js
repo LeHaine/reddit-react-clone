@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 
 const required = value => (value ? "" : "Required");
-const maxLength = max => value =>
-    value && value.length > max ? `Must be ${max} characters or less` : "";
-const maxLength15 = maxLength(15);
-const maxLength40000 = maxLength(40000);
 
 const inputField = ({
     input,
@@ -18,7 +14,7 @@ const inputField = ({
         <div>
             <input {...input} placeholder={label} type={type} />
             {touched &&
-                ((error && <span>{error}</span>) ||
+                ((error && <span className="error">{error}</span>) ||
                     (warning && <span>{warning}</span>))}
         </div>
     </div>
@@ -36,7 +32,7 @@ const textAreaField = ({ input, label, meta: { touched, error, warning } }) => (
     </div>
 );
 
-class NewPostForm extends Component {
+class NewSubForm extends Component {
     render() {
         return (
             <form
@@ -44,28 +40,11 @@ class NewPostForm extends Component {
                 onSubmit={this.props.handleSubmit}
             >
                 <Field
-                    name="title"
+                    name="name"
                     type="text"
                     component={inputField}
-                    label="Title"
+                    label="Name"
                     validate={[required]}
-                />
-                <label>Type</label> <br />
-                <Field name="type" component="select">
-                    <option value="self">Self</option>
-                </Field>
-                <Field
-                    name="content"
-                    type="text"
-                    component={textAreaField}
-                    label="Content"
-                    validate={[maxLength40000]}
-                />
-                <Field
-                    name="sub.name"
-                    component={inputField}
-                    label="Sub"
-                    validate={[required, maxLength15]}
                 />
                 <div>
                     <button type="submit" disabled={this.props.submitting}>
@@ -85,5 +64,5 @@ class NewPostForm extends Component {
 }
 
 export default reduxForm({
-    form: "NewPostForm"
-})(NewPostForm);
+    form: "NewSubForm"
+})(NewSubForm);

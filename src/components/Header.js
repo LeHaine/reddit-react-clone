@@ -11,6 +11,8 @@ class Header extends Component {
             signupLink = null;
             authHeather = (
                 <div>
+                    <Link to="/community/create">Create New Community</Link>
+                    {" - "}
                     <Link to="/submit">New Post</Link>
                     {" - "}
                     <Link to={"/u/" + this.props.username}>
