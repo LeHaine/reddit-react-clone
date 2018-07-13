@@ -1,20 +1,18 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import VoteButton from "../components/VoteButton";
-import { vote, fetchPost } from "../state/actions";
-import "./css/PostView.css";
+import { determinePostLink } from "../../utils/LinkUtils";
+import VoteButton from "../../components/VoteButton";
+import { vote } from "../../state/actions";
+import "./css/Post.css";
 
-class PostView extends Component {
-    constructor() {
-        super();
+class Post extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
-            voteFlag: 0,
-            votes: 0
+            voteFlag: this.props.post.voteFlag,
+            votes: this.props.post.grossVotes
         };
-    }
-    componentDidMount() {
-        const postId = this.props.match.params.id;
-        this.props.fetchPost(postId);
     }
 
     handleVote = dir => {
@@ -23,7 +21,7 @@ class PostView extends Component {
             return;
         }
         let flag = dir;
-        let diff = dir;
+        let diff = flag;
         if (flag === this.state.voteFlag) {
             flag = 0;
             diff = flag - dir;
@@ -32,25 +30,10 @@ class PostView extends Component {
         this.props.vote(this.props.post.id, flag);
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.post !== null) {
-            this.setState({
-                voteFlag: nextProps.post.voteFlag,
-                votes: nextProps.post.grossVotes
-            });
-        }
-    }
-
     render() {
-        if (this.props.loading) {
-            return <div>Loading...</div>;
-        }
         const post = this.props.post;
-        if (!this.props.loading && !post) {
-            return <div>404</div>;
-        }
         return (
-            <div className="PostView">
+            <div className="Post">
                 <div className="vote">
                     <VoteButton
                         arrow="up"
@@ -64,16 +47,12 @@ class PostView extends Component {
                         selected={this.state.voteFlag < 0 ? true : false}
                     />
                 </div>
-
                 <div className="thumb">
                     <i className="fas fa-list" />
                 </div>
                 <div className="body">
                     <div className="title">
-                        <span>{post.title}</span>
-                    </div>
-                    <div className="content">
-                        <p className="text">{post.content}</p>
+                        <a href={determinePostLink(post)}>{post.title}</a>
                     </div>
                     <div className="author">
                         <span>
@@ -87,8 +66,9 @@ class PostView extends Component {
                         </span>
                     </div>
                     <div className="comments">
-                        <i className="fas fa-comment" />
-                        <span>## comments</span>
+                        <a href={determinePostLink(post)}>
+                            <i className="fas fa-comment" />## comments
+                        </a>
                     </div>
                 </div>
             </div>
@@ -97,19 +77,22 @@ class PostView extends Component {
 }
 const mapStateToProps = state => {
     return {
-        isAuthed: state.auth.isAuthed,
-        loading: state.fetch.post.loading,
-        post: state.fetch.post.data
+        isAuthed: state.auth.isAuthed
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        vote: (postId, dir) => dispatch(vote(postId, dir)),
-        fetchPost: postId => dispatch(fetchPost(postId))
+        vote: (postId, dir) => dispatch(vote(postId, dir))
     };
 };
+Post.propTypes = {
+    post: PropTypes.object.isRequired,
+    isAuthed: PropTypes.bool.isRequired,
+    vote: PropTypes.func.isRequired
+};
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PostView);
+)(Post);

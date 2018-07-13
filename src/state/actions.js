@@ -35,8 +35,8 @@ export const fetchPost = id => {
     return fetchData("post/" + id, Reducer.POST);
 };
 
-export const fetchPosts = () => {
-    return fetchData("post", Reducer.POSTS);
+export const fetchPosts = (page = 0) => {
+    return fetchData("post?page=" + page, Reducer.POSTS);
 };
 
 export const signup = creds => {

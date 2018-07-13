@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { login } from "../../state/actions";
@@ -84,6 +85,12 @@ const mapDispatchToProps = dispatch => {
     return {
         login: (username, password) => dispatch(login(username, password))
     };
+};
+
+LoginForm.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthed: PropTypes.bool.isRequired,
+    authError: PropTypes.string
 };
 
 export default connect(

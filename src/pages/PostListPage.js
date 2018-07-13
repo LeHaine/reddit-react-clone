@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
 import FrontPageContainer from "../containers/FrontPageContainer";
-import PostView from "../containers/PostView";
+import PostView from "../containers/post/PostView";
 
 class PostListPage extends Component {
     render() {

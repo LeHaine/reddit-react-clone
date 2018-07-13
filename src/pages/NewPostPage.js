@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { determinePostLink } from "../utils/LinkUtils";
@@ -50,6 +51,14 @@ const mapStateToProps = state => {
         post: state.post.post.data,
         error: state.post.post.error
     };
+};
+
+NewPostPage.propTypes = {
+    isAuthed: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    createPost: PropTypes.func.isRequired,
+    isSuccessful: PropTypes.bool.isRequired,
+    post: PropTypes.object
 };
 
 export default connect(

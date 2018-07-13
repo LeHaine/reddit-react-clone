@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import PropTypes from "prop-types";
+import { Field, reduxForm, propTypes } from "redux-form";
 
 const required = value => (value ? "" : "Required");
 const maxLength = max => value =>
@@ -7,34 +8,41 @@ const maxLength = max => value =>
 const maxLength15 = maxLength(15);
 const maxLength40000 = maxLength(40000);
 
-const inputField = ({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning }
-}) => (
+const inputField = ({ label, type, meta: { touched, error, warning } }) => (
     <div>
         <label>{label}</label>
         <div>
-            <input {...input} placeholder={label} type={type} />
-            {touched &&
-                ((error && <span className="error">{error}</span>) ||
-                    (warning && <span>{warning}</span>))}
-        </div>
-    </div>
-);
-
-const textAreaField = ({ input, label, meta: { touched, error, warning } }) => (
-    <div>
-        <label>{label}</label>
-        <div>
-            <textarea {...input} placeholder={label} rows="10" />
+            <input placeholder={label} type={type} />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
         </div>
     </div>
 );
+
+inputField.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    meta: PropTypes.object
+};
+
+const textAreaField = ({ label, meta: { touched, error, warning } }) => (
+    <div>
+        <label>{label}</label>
+        <div>
+            <textarea placeholder={label} rows="10" />
+            {touched &&
+                ((error && <span>{error}</span>) ||
+                    (warning && <span>{warning}</span>))}
+        </div>
+    </div>
+);
+
+textAreaField.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    meta: PropTypes.object
+};
 
 class NewPostForm extends Component {
     render() {
@@ -83,6 +91,12 @@ class NewPostForm extends Component {
         );
     }
 }
+
+NewPostForm.propTypes = {
+    ...propTypes,
+    className: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired
+};
 
 export default reduxForm({
     form: "NewPostForm"

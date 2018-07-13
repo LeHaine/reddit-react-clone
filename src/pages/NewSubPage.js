@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
@@ -48,6 +49,13 @@ const mapStateToProps = state => {
         isSuccessful: state.post.sub.success,
         error: state.post.sub.error
     };
+};
+
+NewSubPage.propTypes = {
+    createSub: PropTypes.func.isRequired,
+    isAuthed: PropTypes.bool.isRequired,
+    isSuccessful: PropTypes.bool.isRequired,
+    sub: PropTypes.object
 };
 
 export default connect(

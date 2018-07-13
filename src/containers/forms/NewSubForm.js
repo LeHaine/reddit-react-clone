@@ -1,24 +1,26 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import PropTypes from "prop-types";
+import { Field, reduxForm, propTypes } from "redux-form";
 
 const required = value => (value ? "" : "Required");
 
-const inputField = ({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning }
-}) => (
+const inputField = ({ label, type, meta: { touched, error, warning } }) => (
     <div>
         <label>{label}</label>
         <div>
-            <input {...input} placeholder={label} type={type} />
+            <input placeholder={label} type={type} />
             {touched &&
-                ((error && <span className="error">{error}</span>) ||
+                ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
         </div>
     </div>
 );
+
+inputField.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    meta: PropTypes.object
+};
 
 class NewSubForm extends Component {
     render() {
@@ -50,6 +52,12 @@ class NewSubForm extends Component {
         );
     }
 }
+
+NewSubForm.propTypes = {
+    ...propTypes,
+    className: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired
+};
 
 export default reduxForm({
     form: "NewSubForm"

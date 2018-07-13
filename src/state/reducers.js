@@ -35,6 +35,46 @@ const createFetchDataReducer = (name = "") => {
     };
 };
 
+const fetchDataPaginatedDefaultState = {
+    data: [],
+    loading: false,
+    error: null,
+    pagesFetched: [],
+    page: 0,
+    lastPage: 0
+};
+const createFetchPaginatedDataReducer = (name = "") => {
+    return (state = fetchDataPaginatedDefaultState, action = {}) => {
+        switch (action.type) {
+            case Action.FETCH_DATA_REQUEST + "_" + name:
+                return {
+                    ...state,
+                    loading: true
+                };
+            case Action.FETCH_DATA_SUCCESS + "_" + name:
+                return {
+                    ...state,
+                    loading: false,
+                    data: [...state.data, ...action.response.data.content],
+                    pagesFetched: [
+                        ...state.pagesFetched,
+                        action.response.data.pageable.pageNumber
+                    ],
+                    page: action.response.data.pageable.pageNumber,
+                    lastPage: action.response.data.totalPages
+                };
+            case Action.FETCH_DATA_FAILURE + "_" + name:
+                return {
+                    ...state,
+                    loading: false,
+                    data: null
+                };
+            default:
+                return state;
+        }
+    };
+};
+
 const doPostDefaultState = {
     data: null,
     success: false,
@@ -124,7 +164,7 @@ const authReducer = (state = authDefaultState, action = {}) => {
 };
 
 const fetch = combineReducers({
-    posts: createFetchDataReducer(Reducer.POSTS),
+    posts: createFetchPaginatedDataReducer(Reducer.POSTS),
     post: createFetchDataReducer(Reducer.POST)
 });
 

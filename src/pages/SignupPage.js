@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
@@ -47,6 +48,14 @@ const mapStateToProps = state => {
         isSuccessful: state.post.signup.success,
         error: state.post.signup.error
     };
+};
+
+SignupPage.propTypes = {
+    isAuthed: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    isSuccessful: PropTypes.bool.isRequired,
+    signup: PropTypes.func.isRequired,
+    error: PropTypes.string
 };
 
 export default connect(

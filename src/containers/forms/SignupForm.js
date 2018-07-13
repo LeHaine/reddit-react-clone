@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import PropTypes from "prop-types";
+import { Field, reduxForm, propTypes } from "redux-form";
 
 const required = value => (value ? "" : "Required");
 const maxLength = max => value =>
@@ -9,22 +10,23 @@ const maxLength15 = maxLength(15);
 const passwordMatches = (value, allValues) =>
     value !== allValues.password ? "Passwords don't match" : "";
 
-const renderField = ({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning }
-}) => (
+const renderField = ({ label, type, meta: { touched, error, warning } }) => (
     <div>
         <label>{label}</label>
         <div>
-            <input {...input} placeholder={label} type={type} />
+            <input placeholder={label} type={type} />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
         </div>
     </div>
 );
+
+renderField.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    meta: PropTypes.object
+};
 
 class SignupForm extends Component {
     render() {
@@ -70,6 +72,12 @@ class SignupForm extends Component {
         );
     }
 }
+
+SignupForm.propTypes = {
+    ...propTypes,
+    className: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired
+};
 
 export default reduxForm({
     form: "SignUpForm"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Page from "../components/Page";
 
@@ -21,6 +22,13 @@ const mapStateToProps = state => {
         isAuthed: state.auth.isAuthed,
         username: state.auth.username
     };
+};
+
+PageContainer.propTypes = {
+    className: PropTypes.string,
+    isAuthed: PropTypes.bool.isRequired,
+    username: PropTypes.string,
+    children: PropTypes.node
 };
 
 export default connect(mapStateToProps)(PageContainer);
