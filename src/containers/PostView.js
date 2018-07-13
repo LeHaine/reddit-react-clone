@@ -98,8 +98,8 @@ class PostView extends Component {
 const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
-        loading: state.fetch.loading,
-        post: state.fetch.data
+        loading: state.fetch.post.loading,
+        post: state.fetch.post.data
     };
 };
 

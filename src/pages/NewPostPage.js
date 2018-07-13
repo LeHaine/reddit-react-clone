@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { determinePostLink } from "../utils/LinkUtils";
 import PageContainer from "../containers/PageContainer";
 import NewPostForm from "../containers/forms/NewPostForm";
 import { createPost } from "../state/actions";
@@ -24,7 +25,7 @@ class NewPostPage extends Component {
             redirect = <Redirect to="/" />;
         }
         if (!this.state.newPost && this.props.isSuccessful) {
-            redirect = <Redirect to="/" />;
+            redirect = <Redirect to={determinePostLink(this.props.post)} />;
         }
         return (
             <PageContainer className="NewPostPage">
@@ -44,10 +45,10 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
-        loading: state.post.loading,
-        isSuccessful: state.post.success,
-        postData: state.post.post,
-        error: state.post.error
+        loading: state.post.post.loading,
+        isSuccessful: state.post.post.success,
+        post: state.post.post.data,
+        error: state.post.post.error
     };
 };
 

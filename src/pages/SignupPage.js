@@ -43,9 +43,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         isAuthed: state.auth.isAuthed,
-        loading: state.post.loading,
-        isSuccessful: state.post.success,
-        error: state.post.error
+        loading: state.post.signup.loading,
+        isSuccessful: state.post.signup.success,
+        error: state.post.signup.error
     };
 };
 

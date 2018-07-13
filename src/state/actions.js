@@ -1,65 +1,74 @@
 import { CALL_API } from "../middleware/api";
 import * as Action from "./action-types";
+import * as Reducer from "./reducer-types";
 
-export const fetchData = endpoint => {
+export const fetchData = (endpoint, name = "") => {
     return {
         [CALL_API]: {
             method: "GET",
             endpoint: endpoint,
             types: [
-                Action.FETCH_DATA_REQUEST,
-                Action.FETCH_DATA_SUCCESS,
-                Action.FETCH_DATA_FAILURE
+                Action.FETCH_DATA_REQUEST + "_" + name,
+                Action.FETCH_DATA_SUCCESS + "_" + name,
+                Action.FETCH_DATA_FAILURE + "_" + name
             ]
         }
     };
 };
 
-export const doPost = (endpoint, data) => {
+export const doPost = (endpoint, data, name = "") => {
     return {
         [CALL_API]: {
             method: "POST",
             endpoint: endpoint,
             data: data,
             types: [
-                Action.DO_POST_REQUEST,
-                Action.DO_POST_SUCCESS,
-                Action.DO_POST_FAILURE
+                Action.DO_POST_REQUEST + "_" + name,
+                Action.DO_POST_SUCCESS + "_" + name,
+                Action.DO_POST_FAILURE + "_" + name
             ]
         }
     };
 };
 
 export const fetchPost = id => {
-    return fetchData("post/" + id);
+    return fetchData("post/" + id, Reducer.POST);
 };
 
 export const fetchPosts = () => {
-    return fetchData("post");
+    return fetchData("post", Reducer.POSTS);
 };
 
 export const signup = creds => {
-    return doPost("account", {
-        username: creds.username,
-        password: creds.password
-    });
+    return doPost(
+        "account",
+        {
+            username: creds.username,
+            password: creds.password
+        },
+        Reducer.SIGNUP
+    );
 };
 
 export const vote = (postId, dir) => {
-    return doPost("vote", {
-        flag: dir,
-        post: {
-            id: postId
-        }
-    });
+    return doPost(
+        "vote",
+        {
+            flag: dir,
+            post: {
+                id: postId
+            }
+        },
+        Reducer.VOTE
+    );
 };
 
 export const createPost = data => {
-    return doPost("post", data);
+    return doPost("post", data, Reducer.POST);
 };
 
 export const createSub = data => {
-    return doPost("sub", data);
+    return doPost("sub", data, Reducer.SUB);
 };
 
 export const login = (username, password) => {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { determinePostLink } from "../utils/LinkUtils";
 import VoteButton from "../components/VoteButton";
 import { vote } from "../state/actions";
 import "./css/Post.css";
@@ -50,20 +51,7 @@ class Post extends Component {
                 </div>
                 <div className="body">
                     <div className="title">
-                        <a
-                            href={
-                                "/r/" +
-                                post.sub.name +
-                                "/comments/" +
-                                post.id +
-                                "/" +
-                                post.title
-                                    .replace(/[^a-zA-Z0-9 ]/g, "")
-                                    .replace(/ /g, "_")
-                            }
-                        >
-                            {post.title}
-                        </a>
+                        <a href={determinePostLink(post)}>{post.title}</a>
                     </div>
                     <div className="author">
                         <span>
@@ -77,18 +65,7 @@ class Post extends Component {
                         </span>
                     </div>
                     <div className="comments">
-                        <a
-                            href={
-                                "/r/" +
-                                post.sub.name +
-                                "/comments/" +
-                                post.id +
-                                "/" +
-                                post.title
-                                    .replace(/[^a-zA-Z0-9 ]/g, "")
-                                    .replace(/ /g, "_")
-                            }
-                        >
+                        <a href={determinePostLink(post)}>
                             <i className="fas fa-comment" />## comments
                         </a>
                     </div>
