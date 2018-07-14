@@ -67,7 +67,8 @@ class Post extends Component {
                     </div>
                     <div className="comments">
                         <a href={determinePostLink(post)}>
-                            <i className="fas fa-comment" />## comments
+                            <i className="fas fa-comment" />
+                            {post.totalComments} comments
                         </a>
                     </div>
                 </div>

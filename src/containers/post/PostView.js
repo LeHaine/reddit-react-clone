@@ -90,7 +90,7 @@ class PostView extends Component {
                     </div>
                     <div className="comments">
                         <i className="fas fa-comment" />
-                        <span>## comments</span>
+                        <span>{post.totalComments} comments</span>
                     </div>
                 </div>
             </div>
