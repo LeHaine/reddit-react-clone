@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import PageContainer from "../containers/PageContainer";
 import FrontPageContainer from "../containers/FrontPageContainer";
-import PostView from "../containers/post/PostView";
+import DetailedPostView from "../containers/post/DetailedPostView";
 
 class PostListPage extends Component {
     render() {
@@ -10,7 +10,10 @@ class PostListPage extends Component {
             <PageContainer className="PostListPage">
                 <Switch>
                     <Route exact path="/" component={FrontPageContainer} />
-                    <Route path="/r/:sub/comments/:id" component={PostView} />
+                    <Route
+                        path="/r/:sub/comments/:id"
+                        component={DetailedPostView}
+                    />
                 </Switch>
             </PageContainer>
         );

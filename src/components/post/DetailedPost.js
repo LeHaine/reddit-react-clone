@@ -1,37 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { allowNull } from "../../utils/PropTypesUtils";
-import { connect } from "react-redux";
 import VoteButton from "../../components/VoteButton";
-import { vote, fetchPost } from "../../state/actions";
-import "./css/PostView.css";
+import "./css/DetailedPost.css";
 
-class PostView extends Component {
-    constructor() {
-        super();
+class DetailedPost extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
-            voteFlag: 0,
-            votes: 0
+            voteFlag: this.props.post.voteFlag,
+            votes: this.props.post.grossVotes
         };
-    }
-    componentDidMount() {
-        const postId = this.props.match.params.id;
-        this.props.fetchPost(postId);
     }
 
     handleVote = dir => {
         if (!this.props.isAuthed) {
-            console.log("You need to login");
+            console.log("need to be loged in");
             return;
         }
         let flag = dir;
-        let diff = dir;
+        let diff = flag;
         if (flag === this.state.voteFlag) {
             flag = 0;
             diff = flag - dir;
         }
         this.setState({ voteFlag: flag, votes: this.state.votes + diff });
-        this.props.vote(this.props.post.id, flag);
+        this.props.onPostVote({ postId: this.props.post.id, voteFlag: flag });
     };
 
     componentWillReceiveProps(nextProps) {
@@ -44,15 +37,9 @@ class PostView extends Component {
     }
 
     render() {
-        if (this.props.loading) {
-            return <div>Loading...</div>;
-        }
-        const post = this.props.post;
-        if (!this.props.loading && !post) {
-            return <div>404</div>;
-        }
+        const { post } = this.props;
         return (
-            <div className="PostView">
+            <div className="DetailedPost">
                 <div className="vote">
                     <VoteButton
                         arrow="up"
@@ -97,31 +84,11 @@ class PostView extends Component {
         );
     }
 }
-const mapStateToProps = state => {
-    return {
-        isAuthed: state.auth.isAuthed,
-        loading: state.fetch.post.loading,
-        post: state.fetch.post.data
-    };
-};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        vote: (postId, dir) => dispatch(vote(postId, dir)),
-        fetchPost: postId => dispatch(fetchPost(postId))
-    };
-};
-
-PostView.propTypes = {
-    match: PropTypes.object.isRequired,
-    fetchPost: PropTypes.func.isRequired,
+DetailedPost.propTypes = {
     isAuthed: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    post: allowNull(PropTypes.object.isRequired),
-    vote: PropTypes.func.isRequired
+    post: PropTypes.object.isRequired,
+    onPostVote: PropTypes.func.isRequired
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PostView);
+export default DetailedPost;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Post from "./Post";
+import Post from "../../components/post/Post";
 import { vote } from "../../state/actions";
 import "./css/PostList.css";
 
