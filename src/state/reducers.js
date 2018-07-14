@@ -67,7 +67,7 @@ const createFetchPaginatedDataReducer = (name = "") => {
                 return {
                     ...state,
                     loading: false,
-                    data: null
+                    data: []
                 };
             default:
                 return state;
