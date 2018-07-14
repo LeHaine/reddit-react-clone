@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./css/VoteButton.css";
 
 const Arrow = {
@@ -28,5 +29,10 @@ class VoteButton extends Component {
         );
     }
 }
+
+VoteButton.propTypes = {
+    arrow: PropTypes.string.isRequired,
+    selected: PropTypes.bool.isRequired
+};
 
 export default VoteButton;

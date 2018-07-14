@@ -19,7 +19,9 @@ class FrontPageContainer extends Component {
         }
     };
     componentDidMount() {
-        this.props.fetchPosts();
+        if (!this.props.pagesFetched.includes(0)) {
+            this.props.fetchPosts();
+        }
     }
     render() {
         let loader;
@@ -51,7 +53,8 @@ const mapStateToProps = state => {
         lastPage: state.fetch.posts.lastPage,
         pagesFetched: state.fetch.posts.pagesFetched,
         loading: state.fetch.posts.loading,
-        error: state.fetch.posts.error
+        error: state.fetch.posts.error,
+        isAuthed: state.auth.isAuthed
     };
 };
 FrontPageContainer.propTypes = {
@@ -61,6 +64,7 @@ FrontPageContainer.propTypes = {
     lastPage: PropTypes.number.isRequired,
     pagesFetched: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
+    isAuthed: PropTypes.bool.isRequired,
     error: PropTypes.string
 };
 

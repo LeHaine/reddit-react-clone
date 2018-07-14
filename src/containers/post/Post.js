@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { determinePostLink } from "../../utils/LinkUtils";
 import VoteButton from "../../components/VoteButton";
-import { vote } from "../../state/actions";
 import "./css/Post.css";
 
 class Post extends Component {
@@ -17,7 +15,7 @@ class Post extends Component {
 
     handleVote = dir => {
         if (!this.props.isAuthed) {
-            console.log("You need to login");
+            console.log("need to be loged in");
             return;
         }
         let flag = dir;
@@ -27,7 +25,7 @@ class Post extends Component {
             diff = flag - dir;
         }
         this.setState({ voteFlag: flag, votes: this.state.votes + diff });
-        this.props.vote(this.props.post.id, flag);
+        this.props.onPostVote({ postId: this.props.post.id, voteFlag: flag });
     };
 
     render() {
@@ -76,24 +74,10 @@ class Post extends Component {
         );
     }
 }
-const mapStateToProps = state => {
-    return {
-        isAuthed: state.auth.isAuthed
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        vote: (postId, dir) => dispatch(vote(postId, dir))
-    };
-};
 Post.propTypes = {
     post: PropTypes.object.isRequired,
-    isAuthed: PropTypes.bool.isRequired,
-    vote: PropTypes.func.isRequired
+    onPostVote: PropTypes.func.isRequired,
+    isAuthed: PropTypes.bool.isRequired
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Post);
+export default Post;

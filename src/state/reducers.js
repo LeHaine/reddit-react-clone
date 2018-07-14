@@ -58,9 +58,9 @@ const createFetchPaginatedDataReducer = (name = "") => {
                     data: [...state.data, ...action.response.data.content],
                     pagesFetched: [
                         ...state.pagesFetched,
-                        action.response.data.pageable.pageNumber
+                        action.response.data.number
                     ],
-                    page: action.response.data.pageable.pageNumber,
+                    page: action.response.data.number,
                     lastPage: action.response.data.totalPages
                 };
             case Action.FETCH_DATA_FAILURE + "_" + name:

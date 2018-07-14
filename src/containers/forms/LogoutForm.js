@@ -8,7 +8,6 @@ class LogoutForm extends Component {
     componentDidMount() {
         this.props.logout();
     }
-
     render() {
         let redirect;
 
