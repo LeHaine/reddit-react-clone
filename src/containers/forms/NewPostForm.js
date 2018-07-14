@@ -8,11 +8,16 @@ const maxLength = max => value =>
 const maxLength15 = maxLength(15);
 const maxLength40000 = maxLength(40000);
 
-const inputField = ({ label, type, meta: { touched, error, warning } }) => (
+const inputField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning }
+}) => (
     <div>
         <label>{label}</label>
         <div>
-            <input placeholder={label} type={type} />
+            <input {...input} placeholder={label} type={type} />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
@@ -21,16 +26,17 @@ const inputField = ({ label, type, meta: { touched, error, warning } }) => (
 );
 
 inputField.propTypes = {
+    input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object
 };
 
-const textAreaField = ({ label, meta: { touched, error, warning } }) => (
+const textAreaField = ({ input, label, meta: { touched, error, warning } }) => (
     <div>
         <label>{label}</label>
         <div>
-            <textarea placeholder={label} rows="10" />
+            <textarea {...input} placeholder={label} rows="10" />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
@@ -39,6 +45,7 @@ const textAreaField = ({ label, meta: { touched, error, warning } }) => (
 );
 
 textAreaField.propTypes = {
+    input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object
@@ -71,6 +78,7 @@ class NewPostForm extends Component {
                 />
                 <Field
                     name="sub.name"
+                    type="text"
                     component={inputField}
                     label="Sub"
                     validate={[required, maxLength15]}
@@ -94,8 +102,7 @@ class NewPostForm extends Component {
 
 NewPostForm.propTypes = {
     ...propTypes,
-    className: PropTypes.string,
-    handleSubmit: PropTypes.func.isRequired
+    className: PropTypes.string
 };
 
 export default reduxForm({

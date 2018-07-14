@@ -10,11 +10,16 @@ const maxLength15 = maxLength(15);
 const passwordMatches = (value, allValues) =>
     value !== allValues.password ? "Passwords don't match" : "";
 
-const renderField = ({ label, type, meta: { touched, error, warning } }) => (
+const renderField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning }
+}) => (
     <div>
         <label>{label}</label>
         <div>
-            <input placeholder={label} type={type} />
+            <input {...input} placeholder={label} type={type} />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
@@ -23,6 +28,7 @@ const renderField = ({ label, type, meta: { touched, error, warning } }) => (
 );
 
 renderField.propTypes = {
+    input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object

@@ -4,11 +4,16 @@ import { Field, reduxForm, propTypes } from "redux-form";
 
 const required = value => (value ? "" : "Required");
 
-const inputField = ({ label, type, meta: { touched, error, warning } }) => (
+const inputField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning }
+}) => (
     <div>
         <label>{label}</label>
         <div>
-            <input placeholder={label} type={type} />
+            <input {...input} placeholder={label} type={type} />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
@@ -17,6 +22,7 @@ const inputField = ({ label, type, meta: { touched, error, warning } }) => (
 );
 
 inputField.propTypes = {
+    input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object

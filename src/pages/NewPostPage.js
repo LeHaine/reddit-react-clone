@@ -15,6 +15,7 @@ class NewPostPage extends Component {
         };
     }
     handleSubmit = values => {
+        console.log(values);
         this.setState({
             newPost: false
         });

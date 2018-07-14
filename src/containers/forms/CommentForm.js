@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import PropTypes from "prop-types";
+import { Field, reduxForm, propTypes } from "redux-form";
 
 const required = value => (value ? "" : "Required");
 const maxLength = max => value =>
     value && value.length > max ? `Must be ${max} characters or less` : "";
 const maxLength40000 = maxLength(40000);
 
-const textAreaField = ({ label, meta: { touched, error, warning } }) => (
+const textAreaField = ({ input, label, meta: { touched, error, warning } }) => (
     <div>
         <div>
-            <textarea placeholder={label} rows="10" />
+            <textarea {...input} placeholder={label} rows="10" />
             {touched &&
                 ((error && <span>{error}</span>) ||
                     (warning && <span>{warning}</span>))}
@@ -17,12 +18,19 @@ const textAreaField = ({ label, meta: { touched, error, warning } }) => (
     </div>
 );
 
+textAreaField.propTypes = {
+    input: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    meta: PropTypes.object
+};
+
 class CommentForm extends Component {
     render() {
         return (
             <form
                 className={this.props.className}
-                onSubmit={this.props.onCommentSubmit}
+                onSubmit={this.props.handleSubmit}
             >
                 <Field
                     name="comment.text"
@@ -47,6 +55,11 @@ class CommentForm extends Component {
         );
     }
 }
+
+CommentForm.propTypes = {
+    ...propTypes,
+    className: PropTypes.string
+};
 
 export default reduxForm({
     form: "CommentForm"
