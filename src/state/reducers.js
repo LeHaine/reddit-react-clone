@@ -165,7 +165,8 @@ const authReducer = (state = authDefaultState, action = {}) => {
 
 const fetch = combineReducers({
     posts: createFetchPaginatedDataReducer(Reducer.POSTS),
-    post: createFetchDataReducer(Reducer.POST)
+    post: createFetchDataReducer(Reducer.POST),
+    comments: createFetchPaginatedDataReducer(Reducer.COMMENTS)
 });
 
 const post = combineReducers({

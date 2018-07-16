@@ -2,23 +2,22 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { allowNull } from "../../utils/PropTypesUtils";
 import { connect } from "react-redux";
-import ScrollDetector from "../../components/ScrollDetector";
 import DetailedPost from "../../components/post/DetailedPost";
-import { vote, fetchPost } from "../../state/actions";
+import CommentForm from "../forms/CommentForm";
+import CommentListContainer from "../comment/CommentListContainer";
+import { postVote, fetchPost, comment } from "../../state/actions";
 
 class DetailedPostView extends Component {
-    handleScroll = bottomReached => {
-        if (bottomReached) {
-            console.log("need to load more comments");
-        }
-    };
-
     handleVote = data => {
         if (!this.props.isAuthed) {
             console.log("need to be logged in");
             return;
         }
-        this.props.vote(data.postId, data.voteFlag);
+        this.props.postVote(data.postId, data.voteFlag);
+    };
+
+    handleCommentSubmit = values => {
+        this.props.comment(this.props.post.id, values.comment.text);
     };
 
     componentDidMount() {
@@ -30,21 +29,21 @@ class DetailedPostView extends Component {
         if (this.props.loading) {
             return <div>Loading...</div>;
         }
-        const post = this.props.post;
+        const { post } = this.props;
         if (!this.props.loading && !post) {
             return <div>404</div>;
         }
         return (
-            <ScrollDetector
-                className="DetailedPostView"
-                onPageScroll={this.handleScroll}
-            >
+            <div className="DetailedPostView">
                 <DetailedPost
                     post={post}
                     onPostVote={this.handleVote}
                     isAuthed={this.props.isAuthed}
                 />
-            </ScrollDetector>
+
+                <CommentForm onSubmit={this.handleCommentSubmit} />
+                <CommentListContainer postId={post.id} />
+            </div>
         );
     }
 }
@@ -58,8 +57,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        vote: (postId, dir) => dispatch(vote(postId, dir)),
-        fetchPost: postId => dispatch(fetchPost(postId))
+        postVote: (postId, dir) => dispatch(postVote(postId, dir)),
+        fetchPost: postId => dispatch(fetchPost(postId)),
+        comment: (postId, text) => dispatch(comment(postId, text))
     };
 };
 
@@ -69,7 +69,8 @@ DetailedPostView.propTypes = {
     isAuthed: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     post: allowNull(PropTypes.object.isRequired),
-    vote: PropTypes.func.isRequired
+    postVote: PropTypes.func.isRequired,
+    comment: PropTypes.func.isRequired
 };
 
 export default connect(

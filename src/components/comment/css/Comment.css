@@ -1,0 +1,67 @@
+.Comment {
+    display: grid;
+    grid-template-columns: 5% 50% auto;
+    border-bottom: solid 1px #333;
+    margin: 0 auto;
+}
+
+.Comment i {
+    color: #ccc;
+}
+
+.Comment .link {
+    display: block;
+}
+
+.Comment .vote {
+    display: grid;
+    grid-template-columns: auto;
+    margin: 0 auto;
+}
+
+.Comment .karma {
+    font-size: 14px;
+    text-align: center;
+    margin: auto;
+}
+
+.Comment .thumb {
+    text-align: center;
+    margin: auto;
+    font-size: 42px;
+}
+
+.Comment .title {
+    font-size: 19px;
+    padding: 2px 0;
+}
+
+.Comment .content {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+.Comment .content .text {
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.Comment .author {
+    font-size: 12px;
+    color: gray;
+}
+
+.Comment .comments button {
+    border: none;
+    padding: 0;
+    height: 28px;
+    background-color: white;
+}
+
+.Comment .comments button:hover {
+    background-color: #eee;
+}
+
+.Comment .comments .description {
+    color: #aaa;
+}

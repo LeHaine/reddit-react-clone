@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Post from "../../components/post/Post";
-import { vote } from "../../state/actions";
+import { postVote } from "../../state/actions";
 import "./css/PostList.css";
 
 class PostList extends Component {
@@ -11,7 +11,7 @@ class PostList extends Component {
             console.log("need to be logged in");
             return;
         }
-        this.props.vote(data.postId, data.voteFlag);
+        this.props.postVote(data.postId, data.voteFlag);
     };
 
     render() {
@@ -41,14 +41,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        vote: (postId, dir) => dispatch(vote(postId, dir))
+        postVote: (postId, dir) => dispatch(postVote(postId, dir))
     };
 };
 
 PostList.propTypes = {
     posts: PropTypes.array.isRequired,
     isAuthed: PropTypes.bool.isRequired,
-    vote: PropTypes.func.isRequired
+    postVote: PropTypes.func.isRequired
 };
 
 export default connect(

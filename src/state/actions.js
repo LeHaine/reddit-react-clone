@@ -39,6 +39,13 @@ export const fetchPosts = (page = 0) => {
     return fetchData("post?page=" + page, Reducer.POSTS);
 };
 
+export const fetchComments = (postId, page = 0) => {
+    return fetchData(
+        "post/comments/toplevel/" + postId + "?page=" + page,
+        Reducer.COMMENTS
+    );
+};
+
 export const signup = creds => {
     return doPost(
         "account",
@@ -50,9 +57,9 @@ export const signup = creds => {
     );
 };
 
-export const vote = (postId, dir) => {
+export const postVote = (postId, dir) => {
     return doPost(
-        "vote",
+        "vote/post",
         {
             flag: dir,
             post: {
@@ -60,6 +67,32 @@ export const vote = (postId, dir) => {
             }
         },
         Reducer.VOTE
+    );
+};
+
+export const commentVote = (commentId, dir) => {
+    return doPost(
+        "vote/comment",
+        {
+            flag: dir,
+            comment: {
+                id: commentId
+            }
+        },
+        Reducer.VOTE
+    );
+};
+
+export const comment = (postId, text) => {
+    return doPost(
+        "comment",
+        {
+            text: text,
+            post: {
+                id: postId
+            }
+        },
+        Reducer.COMMENT
     );
 };
 
