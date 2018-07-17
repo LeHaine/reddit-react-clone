@@ -83,13 +83,19 @@ export const commentVote = (commentId, dir) => {
     );
 };
 
-export const comment = (postId, text) => {
+export const comment = (id, text, type) => {
+    let name;
+    if (type === "post") {
+        name = "post";
+    } else if (type === "comment") {
+        name = "parent";
+    }
     return doPost(
-        "comment",
+        "comment?type=" + type,
         {
             text: text,
-            post: {
-                id: postId
+            [name]: {
+                id: id
             }
         },
         Reducer.COMMENT

@@ -18,6 +18,7 @@ class CommentListContainer extends Component {
             }
         }
     };
+
     componentDidMount() {
         if (!this.props.pagesFetched.includes(0)) {
             this.props.fetchComments(this.props.postId);
@@ -33,7 +34,10 @@ class CommentListContainer extends Component {
                 className="CommentListContainer"
                 onPageScroll={this.handleScroll}
             >
-                <CommentList comments={this.props.comments} />
+                <CommentList
+                    comments={this.props.comments}
+                    onReplyComment={this.handleCommentReply}
+                />
                 {loader}
             </ScrollDetector>
         );

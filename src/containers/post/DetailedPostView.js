@@ -17,7 +17,8 @@ class DetailedPostView extends Component {
     };
 
     handleCommentSubmit = values => {
-        this.props.comment(this.props.post.id, values.comment.text);
+        this.props.replyPost(this.props.post.id, values.comment.text);
+        window.location.reload();
     };
 
     componentDidMount() {
@@ -33,6 +34,10 @@ class DetailedPostView extends Component {
         if (!this.props.loading && !post) {
             return <div>404</div>;
         }
+        let commentForm;
+        if (this.props.isAuthed) {
+            commentForm = <CommentForm onSubmit={this.handleCommentSubmit} />;
+        }
         return (
             <div className="DetailedPostView">
                 <DetailedPost
@@ -40,8 +45,7 @@ class DetailedPostView extends Component {
                     onPostVote={this.handleVote}
                     isAuthed={this.props.isAuthed}
                 />
-
-                <CommentForm onSubmit={this.handleCommentSubmit} />
+                {commentForm}
                 <CommentListContainer postId={post.id} />
             </div>
         );
@@ -59,7 +63,7 @@ const mapDispatchToProps = dispatch => {
     return {
         postVote: (postId, dir) => dispatch(postVote(postId, dir)),
         fetchPost: postId => dispatch(fetchPost(postId)),
-        comment: (postId, text) => dispatch(comment(postId, text))
+        replyPost: (postId, text) => dispatch(comment(postId, text, "post"))
     };
 };
 
@@ -70,7 +74,7 @@ DetailedPostView.propTypes = {
     loading: PropTypes.bool.isRequired,
     post: allowNull(PropTypes.object.isRequired),
     postVote: PropTypes.func.isRequired,
-    comment: PropTypes.func.isRequired
+    replyPost: PropTypes.func.isRequired
 };
 
 export default connect(
